@@ -1,6 +1,7 @@
 ﻿using ETL.Orders.BLL.DTOs;
 using ETL.Orders.BLL.Services;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -55,9 +56,14 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
             var regDate = orderElement.Element(XmlTags.RegDate)?.Value;
             var sum = orderElement.Element(XmlTags.Sum)?.Value;
 
-            if(!DateTime.TryParse(regDate, out var registrationDate) || !decimal.TryParse(sum, out var orderSum))
+
+            if(!DateTime.TryParse(regDate, out var registrationDate))
             {
-                throw new FormatException("The registration date or order sum is in an invalid format.");
+                throw new FormatException("The registration date is in an invalid format.");
+            }
+            if(!decimal.TryParse(sum, NumberStyles.Number, CultureInfo.InvariantCulture, out var orderSum))
+            {
+                throw new FormatException("The order sum is in an invalid format.");
             }
 
             result.PurchaseId = int.Parse(orderNo);
@@ -74,13 +80,11 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
             {
                 throw new FormatException("The FIO quantity is in an invalid format.");
             }
-            var firstName = names.FirstOrDefault();
-            var lastName = names.LastOrDefault();
 
             var user = new UserDTO
             {
-                FirstName = firstName,
-                LastName = lastName,
+                FirstName = names.First(),
+                LastName = names.Last(),
                 Email = emailElement
             };
 
@@ -105,7 +109,7 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
         {
             var productName = productElement.Element(XmlTags.Name)?.Value ?? throw new FormatException("The product name is in an invalid format.");
             var productPrice = productElement.Element(XmlTags.Price)?.Value;
-            if(!decimal.TryParse(productPrice, out var productPriceDecimal))
+            if(!decimal.TryParse(productPrice, NumberStyles.Number, CultureInfo.InvariantCulture, out var productPriceDecimal))
             {
                 throw new FormatException("The product price is in an invalid format.");
             }
