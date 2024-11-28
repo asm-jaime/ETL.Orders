@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ETL.Orders.Models;
+﻿namespace ETL.Orders.Models;
 
 public partial class Product
 {

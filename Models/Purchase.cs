@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ETL.Orders.Models;
+﻿namespace ETL.Orders.Models;
 
 public partial class Purchase
 {
@@ -19,7 +16,7 @@ public partial class Purchase
 
     public string BillingAddress { get; set; } = null!;
 
-    public virtual ICollection<PurchaseItem> PurchaseItems { get; set; } = new List<PurchaseItem>();
+    public virtual ICollection<PurchaseItem> PurchaseItems { get; set; } = [];
 
     public virtual User User { get; set; } = null!;
 }
