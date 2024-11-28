@@ -1,5 +1,5 @@
-﻿using ETL.Orders.FileProcessingService;
-using ETL.Orders.Repositories;
+﻿using ETL.Orders.DAL;
+using ETL.Orders.BLL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,7 +1,7 @@
-﻿using ETL.Orders.Models;
+﻿using ETL.Orders.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ETL.Orders;
+namespace ETL.Orders.DAL;
 
 public partial class InternetStoreContext : DbContext
 {

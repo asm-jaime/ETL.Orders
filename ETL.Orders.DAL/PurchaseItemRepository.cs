@@ -1,8 +1,8 @@
-﻿using ETL.Orders.Models;
+﻿using ETL.Orders.DAL.Models;
 
-namespace ETL.Orders.Repositories;
+namespace ETL.Orders.DAL;
 
-class PurchaseItemRepository(InternetStoreContext dbContext) : IPurchaseItemRepository
+public class PurchaseItemRepository(InternetStoreContext dbContext) : IPurchaseItemRepository
 {
     private readonly InternetStoreContext _dbContext = dbContext;
 

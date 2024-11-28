@@ -1,4 +1,7 @@
-﻿namespace ETL.Orders.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace ETL.Orders.DAL.Models;
 
 public partial class Purchase
 {

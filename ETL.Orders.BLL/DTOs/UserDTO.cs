@@ -1,4 +1,4 @@
-﻿namespace ETL.Orders.DTOs;
+﻿namespace ETL.Orders.BLL.DTOs;
 
 public class UserDTO
 {

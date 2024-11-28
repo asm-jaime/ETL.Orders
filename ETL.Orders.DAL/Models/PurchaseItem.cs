@@ -1,4 +1,4 @@
-﻿namespace ETL.Orders.Models;
+﻿namespace ETL.Orders.DAL.Models;
 
 public partial class PurchaseItem
 {

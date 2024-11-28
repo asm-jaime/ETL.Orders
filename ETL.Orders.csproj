@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ETL.Orders.BLL\**" />
+    <Compile Remove="ETL.Orders.DAL\**" />
+    <EmbeddedResource Remove="ETL.Orders.BLL\**" />
+    <EmbeddedResource Remove="ETL.Orders.DAL\**" />
+    <None Remove="ETL.Orders.BLL\**" />
+    <None Remove="ETL.Orders.DAL\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.Development.json" />
   </ItemGroup>
 
@@ -33,6 +42,17 @@
     <EmbeddedResource Include="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="ETL.Orders.BLL\ETL.Orders.BLL.csproj" />
+    <ProjectReference Include="ETL.Orders.DAL\ETL.Orders.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="data.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
