@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ETL.Orders": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
