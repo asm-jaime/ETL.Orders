@@ -58,7 +58,7 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
 
             if(!DateTime.TryParse(regDate, out var registrationDate))
             {
-                throw new FormatException("The registration date is in an invalid format.");
+                _logger.LogWarning("The registration date is in an invalid format.");
             }
             if(!decimal.TryParse(sum, NumberStyles.Number, CultureInfo.InvariantCulture, out var orderSum))
             {
@@ -72,18 +72,26 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
             result.PurchaseItems = GetPurchaseItemsFromOrderElementsProduct(orderElement.Elements(XmlTags.Product));
 
             var userElement = orderElement.Element(XmlTags.User) ?? throw new FormatException("The user is in an invalid format.");
-            var fioElement = userElement.Element(XmlTags.Fio)?.Value ?? throw new FormatException("The FIO is in an invalid format.");
-            var emailElement = userElement.Element(XmlTags.Email)?.Value ?? throw new FormatException("The email is in an invalid format.");
-            var names = fioElement.Split(" ");
-            if(names.Length != 3)
+            var fioElement = userElement.Element(XmlTags.Fio)?.Value;
+            var names = new string[] { };
+            if(fioElement is null)
             {
-                throw new FormatException("The FIO quantity is in an invalid format.");
+                _logger.LogWarning("The FIO is in an invalid format.");
             }
+            else
+            {
+                names = fioElement.Split(" ");
+                if(names.Length != 3)
+                {
+                    throw new FormatException("The FIO quantity is in an invalid format.");
+                }
+            }
+            var emailElement = userElement.Element(XmlTags.Email)?.Value ?? throw new FormatException("The email is in an invalid format.");
 
             var user = new UserDTO
             {
-                FirstName = names.First(),
-                LastName = names.Last(),
+                FirstName = names.FirstOrDefault(""),
+                LastName = names.LastOrDefault(""),
                 Email = emailElement
             };
 
