@@ -6,6 +6,8 @@ public partial class PurchaseItem
 
     public int PurchaseId { get; set; }
 
+    public int? NumberOrder { get; set; }
+
     public int ProductId { get; set; }
 
     public int Quantity { get; set; }

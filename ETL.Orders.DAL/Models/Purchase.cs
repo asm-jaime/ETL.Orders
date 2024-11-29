@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ETL.Orders.DAL.Models;
+﻿namespace ETL.Orders.DAL.Models;
 
 public partial class Purchase
 {
     public int PurchaseId { get; set; }
+
+    public int? NumberOrder { get; set; }
 
     public int UserId { get; set; }
 
@@ -19,7 +18,7 @@ public partial class Purchase
 
     public string BillingAddress { get; set; } = null!;
 
-    public virtual ICollection<PurchaseItem> PurchaseItems { get; set; } = [];
+    public virtual ICollection<PurchaseItem> PurchaseItems { get; set; } = new List<PurchaseItem>();
 
     public virtual User User { get; set; } = null!;
 }
