@@ -12,10 +12,13 @@
   <ItemGroup>
     <Compile Remove="ETL.Orders.BLL\**" />
     <Compile Remove="ETL.Orders.DAL\**" />
+    <Compile Remove="ETL.Orders.Tests\**" />
     <EmbeddedResource Remove="ETL.Orders.BLL\**" />
     <EmbeddedResource Remove="ETL.Orders.DAL\**" />
+    <EmbeddedResource Remove="ETL.Orders.Tests\**" />
     <None Remove="ETL.Orders.BLL\**" />
     <None Remove="ETL.Orders.DAL\**" />
+    <None Remove="ETL.Orders.Tests\**" />
   </ItemGroup>
 
   <ItemGroup>
