@@ -1,5 +1,28 @@
 # ETL.Orders
 
+Использованные технологии: .net 8, EF-Core, MSSQL, DI, Docker, nunit, Testcontainers, Moq, FluentAssertion.
+
+Чтобы сгенерировать модели из имеющейся таблицы бала использована команда в nuget package console:
+```console
+Scaffold-DbContext "Server=MSSQL_SERVER\\MSSQLSERVER01;Database=InternetStore;Trusted_Connection=True;Encrypt=False;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+```
+
+Для того чтобы поменять файл загрузки необходимо отредактировать `commandLineArgs` поле в:
+```json
+{
+  "profiles": {
+    "ETL.Orders": {
+      "commandName": "Project",
+      "commandLineArgs": "data.xml"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
+```
+
+
 1. Нарисовать схему базы данных. 
 Предложите схему базы данных для интернет-магазина. База данных должна содержать следующие 3 сущности: Товары, Пользователи, Покупки товаров пользователями. Количество и состав таблиц на ваше усмотрение. На схеме должны быть колонки таблицы и связи между таблицами. Типы колонок указывать не нужно. Схема может быть создана в любом редакторе, либо от руки на листочке и сфотографирована.
 
