@@ -1,3 +1,19 @@
+USE master;
+GO
+
+ALTER DATABASE InternetStore
+SET SINGLE_USER
+WITH ROLLBACK IMMEDIATE;
+GO
+
+DROP DATABASE InternetStore;
+GO
+
+CREATE DATABASE InternetStore;
+GO
+
+USE InternetStore;
+
 CREATE TABLE dbo.Users (
     UserID INT IDENTITY(1,1) PRIMARY KEY,
     FirstName NVARCHAR(50) NOT NULL,
@@ -21,12 +37,12 @@ CREATE TABLE dbo.Products (
     Price DECIMAL(10, 2) NOT NULL CHECK (Price >= 0),
     StockQuantity INT NOT NULL CHECK (StockQuantity >= 0),
     Category NVARCHAR(100) NULL,
-    DateAdded DATETIME2 NOT NULL DEFAULT GETDATE(),
-    SupplierID INT NULL -- Assuming Suppliers table exists
+    DateAdded DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 
 CREATE TABLE dbo.Purchases (
     PurchaseID INT IDENTITY(1,1) PRIMARY KEY,
+	NumberOrder INT,
     UserID INT NOT NULL,
     PurchaseDate DATETIME2 NOT NULL DEFAULT GETDATE(),
     TotalAmount DECIMAL(10, 2) NOT NULL CHECK (TotalAmount >= 0),
@@ -43,6 +59,7 @@ CREATE TABLE dbo.Purchases (
 CREATE TABLE dbo.PurchaseItems (
     PurchaseItemID INT IDENTITY(1,1) PRIMARY KEY,
     PurchaseID INT NOT NULL,
+	NumberOrder INT,
     ProductID INT NOT NULL,
     Quantity INT NOT NULL CHECK (Quantity > 0),
     UnitPrice DECIMAL(10, 2) NOT NULL CHECK (UnitPrice >= 0),

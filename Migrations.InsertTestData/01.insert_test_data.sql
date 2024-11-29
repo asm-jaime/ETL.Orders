@@ -29,20 +29,32 @@ VALUES
 ('Charlie', 'Brown', 'charliebrown@example.com', 
   0x77777777777777778888888888888888, 
   0xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD, 
+  '202 Pine St', 'Smalltown', 'Smallstate', '55667', 'USA', '555-7890'),
+('Иван', 'Иванов', 'abc@email.com', 
+  0x77777777777777778888888888888888, 
+  0xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD, 
+  '202 Pine St', 'Smalltown', 'Smallstate', '55667', 'USA', '555-7890'),
+('Виктор', 'Петров', 'xyz@email.com', 
+  0x77777777777777778888888888888888, 
+  0xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD, 
   '202 Pine St', 'Smalltown', 'Smallstate', '55667', 'USA', '555-7890');
 
-INSERT INTO dbo.Products (ProductName, Description, Price, StockQuantity, Category, SupplierID)
+INSERT INTO dbo.Products (ProductName, Description, Price, StockQuantity, Category)
 VALUES
-('Product A', 'Description for Product A', 10.99, 100, 'Category 1', NULL),
-('Product B', 'Description for Product B', 5.49, 200, 'Category 1', NULL),
-('Product C', 'Description for Product C', 20.00, 150, 'Category 2', NULL),
-('Product D', 'Description for Product D', 15.75, 80, 'Category 2', NULL),
-('Product E', 'Description for Product E', 30.00, 50, 'Category 3', NULL),
-('Product F', 'Description for Product F', 25.99, 60, 'Category 3', NULL),
-('Product G', 'Description for Product G', 40.00, 70, 'Category 4', NULL),
-('Product H', 'Description for Product H', 8.99, 120, 'Category 4', NULL),
-('Product I', 'Description for Product I', 12.50, 90, 'Category 5', NULL),
-('Product J', 'Description for Product J', 22.00, 110, 'Category 5', NULL);
+('Product A', 'Description for Product A', 10.99, 100, 'Category 1'),
+('Product B', 'Description for Product B', 5.49, 200, 'Category 1'),
+('Product C', 'Description for Product C', 20.00, 150, 'Category 2'),
+('Product D', 'Description for Product D', 15.75, 80, 'Category 2'),
+('Product E', 'Description for Product E', 30.00, 50, 'Category 3'),
+('Product F', 'Description for Product F', 25.99, 60, 'Category 3'),
+('Product G', 'Description for Product G', 40.00, 70, 'Category 4'),
+('Product H', 'Description for Product H', 8.99, 120, 'Category 4'),
+('Product I', 'Description for Product I', 12.50, 90, 'Category 5'),
+('Product J', 'Description for Product J', 22.00, 110, 'Category 5'),
+('LG 1755',   'Description for Product I', 12000.75, 100, 'Category 5'),
+('Xiomi 12X', 'Description for Product I', 42000.75, 100, 'Category 5'),
+('Noname 14232', 'Description for Product I', 1.70, 100, 'Category 5'),
+('Noname 222',   'Description for Product I', 3.14, 100, 'Category 5');
 
 
 INSERT INTO dbo.Purchases (UserID, PurchaseDate, TotalAmount, PaymentMethod, ShippingAddress, BillingAddress)
@@ -85,4 +97,4 @@ VALUES
 (9, 5, 1, 30.00),
 
 (10, 6, 2, 25.99),
-(10, 7, 1, 40.00);
+(10, 7, 1, 40.00)
