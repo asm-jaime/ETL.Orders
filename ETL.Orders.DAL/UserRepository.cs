@@ -1,4 +1,5 @@
 ﻿using ETL.Orders.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ETL.Orders.DAL;
 
@@ -12,8 +13,8 @@ public class UserRepository(InternetStoreContext dbContext) : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public Task<User> GetUserByFirstNameAndLastAsync(string firstName, string lastName)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email == email);
     }
 }

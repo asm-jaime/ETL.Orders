@@ -2,7 +2,7 @@
 
 public class PurchaseDTO
 {
-    public int PurchaseId { get; set; }
+    public int NumberOrder { get; set; }
 
     public DateTime PurchaseDate { get; set; }
 

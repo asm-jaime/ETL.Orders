@@ -26,19 +26,18 @@ public partial class InternetStoreContext : DbContext
     {
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6ED11D141B0");
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6ED7269317F");
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.Category).HasMaxLength(100);
             entity.Property(e => e.DateAdded).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ProductName).HasMaxLength(100);
-            entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
         });
 
         modelBuilder.Entity<Purchase>(entity =>
         {
-            entity.HasKey(e => e.PurchaseId).HasName("PK__Purchase__6B0A6BDEE5B78287");
+            entity.HasKey(e => e.PurchaseId).HasName("PK__Purchase__6B0A6BDE4F6D6948");
 
             entity.Property(e => e.PurchaseId).HasColumnName("PurchaseID");
             entity.Property(e => e.BillingAddress).HasMaxLength(200);
@@ -55,7 +54,7 @@ public partial class InternetStoreContext : DbContext
 
         modelBuilder.Entity<PurchaseItem>(entity =>
         {
-            entity.HasKey(e => e.PurchaseItemId).HasName("PK__Purchase__B48BB6A7D4EE33F9");
+            entity.HasKey(e => e.PurchaseItemId).HasName("PK__Purchase__B48BB6A715DC246B");
 
             entity.Property(e => e.PurchaseItemId).HasColumnName("PurchaseItemID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
@@ -74,9 +73,9 @@ public partial class InternetStoreContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCACE88F161D");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC9523CBC5");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534EEFB0ADC").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534C5F28EE7").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Address).HasMaxLength(200);

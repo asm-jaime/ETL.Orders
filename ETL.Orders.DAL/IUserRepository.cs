@@ -4,6 +4,6 @@ namespace ETL.Orders.DAL;
 
 public interface IUserRepository
 {
-    Task<User> GetUserByFirstNameAndLastAsync(string firstName, string lastName);
+    Task<User?> GetUserByEmailAsync(string email);
     Task AddAsync(User user);
 }

@@ -1,5 +1,4 @@
 ﻿using ETL.Orders.BLL;
-using ETL.Orders.BLL.Services;
 using ETL.Orders.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,9 +37,7 @@ public class Program
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IPurchaseItemRepository, PurchaseItemRepository>();
         services.AddScoped<IPurchaseRepository, PurchaseRepository>();
-        services.AddScoped<ProductService>();
         services.AddScoped<PurchaseService>();
-        services.AddScoped<UserService>();
         services.AddSingleton<IFileProcessingService, XmlFileProcessingService>();
         var serviceProvider = services.BuildServiceProvider();
 

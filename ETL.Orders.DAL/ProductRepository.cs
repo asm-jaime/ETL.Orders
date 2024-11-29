@@ -1,4 +1,5 @@
 ﻿using ETL.Orders.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ETL.Orders.DAL;
 
@@ -12,8 +13,8 @@ public class ProductRepository(InternetStoreContext dbContext) : IProductReposit
         await _dbContext.SaveChangesAsync();
     }
 
-    public Task<Product> GetProductByNameAsync(string name)
+    public async Task<Product?> GetProductByNameAsync(string name)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Products .AsNoTracking().SingleOrDefaultAsync(p => p.ProductName.ToLower() == name.ToLower());
     }
 }

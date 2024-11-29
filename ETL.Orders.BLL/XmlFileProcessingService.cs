@@ -1,5 +1,4 @@
 ﻿using ETL.Orders.BLL.DTOs;
-using ETL.Orders.BLL.Services;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Xml;
@@ -44,7 +43,7 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
     {
         var result = new PurchaseDTO()
         {
-            PurchaseId = default,
+            NumberOrder = default,
             PurchaseDate = default,
             TotalAmount = default,
             PurchaseItems = []
@@ -66,7 +65,7 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
                 throw new FormatException("The order sum is in an invalid format.");
             }
 
-            result.PurchaseId = int.Parse(orderNo);
+            result.NumberOrder = int.Parse(orderNo);
             result.PurchaseDate = registrationDate;
             result.TotalAmount = orderSum;
 
