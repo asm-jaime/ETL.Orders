@@ -1,9 +1,11 @@
-﻿using ETL.Orders.DAL;
+﻿using ETL.Orders.BLL;
+using ETL.Orders.DAL;
 using ETL.Orders.DAL.Models;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
-using System;
 using System.Threading.Tasks;
 using Testcontainers.MsSql;
 
@@ -19,7 +21,6 @@ public class DatabaseTests
     [OneTimeSetUp]
     public async Task OneTimeSetUpAsync()
     {
-        // Start the MsSql Testcontainer
         _msSqlContainer = new MsSqlBuilder()
             .WithPassword("yourStrong(!)Password")
             .Build();
@@ -34,6 +35,81 @@ public class DatabaseTests
         _context = new InternetStoreContext(optionsBuilder.Options);
 
         await _context.Database.EnsureCreatedAsync();
+        await SeedTestDataAsync();
+    }
+
+    private async Task SeedTestDataAsync()
+    {
+        var user1 = new User
+        {
+            FirstName = "Иван",
+            LastName = "Иванов",
+            Email = "abc@email.com",
+            Salt = [],
+            HashedPassword = [],
+            Address = "202 Pine St",
+            City = "Smalltown",
+            State = "Smallstate",
+            PostalCode = "55667",
+            Country = "USA",
+            PhoneNumber = "555-7890"
+        };
+
+        var user2 = new User
+        {
+            FirstName = "Виктор",
+            LastName = "Петров",
+            Email = "xyz@email.com",
+            Salt = [],
+            HashedPassword = [],
+            Address = "202 Pine St",
+            City = "Smalltown",
+            State = "Smallstate",
+            PostalCode = "55667",
+            Country = "USA",
+            PhoneNumber = "555-7890"
+        };
+
+        var product1 = new Product
+        {
+            ProductName = "LG 1755",
+            Description = "Description for Product I",
+            Price = 12000.75M,
+            StockQuantity = 100,
+            Category = "Category 5"
+        };
+
+        var product2 = new Product
+        {
+            ProductName = "Xiomi 12X",
+            Description = "Description for Product I",
+            Price = 42000.75M,
+            StockQuantity = 100,
+            Category = "Category 5"
+        };
+
+        var product3 = new Product
+        {
+            ProductName = "Noname 14232",
+            Description = "Description for Product I",
+            Price = 1.70M,
+            StockQuantity = 100,
+            Category = "Category 5"
+        };
+
+        var product4 = new Product
+        {
+            ProductName = "Noname 222",
+            Description = "Description for Product I",
+            Price = 3.14M,
+            StockQuantity = 100,
+            Category = "Category 5"
+        };
+
+        _context.Users.AddRange(user1, user2);
+        _context.Products.AddRange(product1, product2, product3, product4);
+
+        await _context.SaveChangesAsync();
     }
 
     [OneTimeTearDown]
@@ -51,28 +127,30 @@ public class DatabaseTests
     }
 
     [Test]
-    public async Task Test_AddAndRetrieveProduct_ShouldReturnInsertedProduct()
+    public async Task Test_ProcessXmlFile_ShouldProcessPurchases()
     {
         // Arrange
-        var product = new Product
-        {
-            ProductName = "Test Product",
-            Category = "Test Category",
-            Price = 9.99M,
-            DateAdded = DateTime.UtcNow
-        };
+        var mockLogger = new Mock<ILogger<XmlFileProcessingService>>();
+        var purchaseRepository = new PurchaseRepository(_context);
+        var purchaseItemRepository = new PurchaseItemRepository(_context);
+        var userRepository = new UserRepository(_context);
+        var productRepository = new ProductRepository(_context);
+        var purchaseService = new PurchaseService(purchaseRepository, purchaseItemRepository, userRepository, productRepository);
+        var xmlFileProcessingService = new XmlFileProcessingService(mockLogger.Object, purchaseService);
+        var testFilePath = @"test_data1.xml";
 
         // Act
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
-
-        var retrievedProduct = await _context.Products.FirstOrDefaultAsync(p => p.ProductName == "Test Product");
+        await xmlFileProcessingService.ProcessFile(testFilePath);
 
         // Assert
-        retrievedProduct.Should().NotBeNull();
-        retrievedProduct.ProductName.Should().Be("Test Product");
-        retrievedProduct.Category.Should().Be("Test Category");
-        retrievedProduct.Price.Should().Be(9.99M);
+        var purchases = await _context.Purchases
+            .Include(p => p.PurchaseItems)
+            .ThenInclude(pi => pi.Product)
+            .Include(p => p.User)
+            .ToListAsync();
+
+        purchases.Should().NotBeNull();
+        purchases.Count.Should().Be(2);
     }
 }
 

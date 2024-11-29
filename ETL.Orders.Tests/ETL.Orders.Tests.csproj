@@ -8,6 +8,7 @@
 <ItemGroup>
   <PackageReference Include="FluentAssertions" Version="6.12.0" />
   <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+  <PackageReference Include="Moq" Version="4.20.72" />
   <PackageReference Include="NUnit" Version="3.13.3" />
   <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
   <PackageReference Include="Testcontainers" Version="4.0.0" />
@@ -16,6 +17,12 @@
 
 <ItemGroup>
   <ProjectReference Include="..\ETL.Orders.BLL\ETL.Orders.BLL.csproj" />
+</ItemGroup>
+
+<ItemGroup>
+  <None Update="test_data1.xml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
 </ItemGroup>
 
 </Project>
