@@ -29,7 +29,7 @@ public class XmlFileProcessingService(ILogger<XmlFileProcessingService> logger, 
                     continue;
                 }
                 var purchase = GetPurchase(orderElement);
-                await _purchaseService.AddPurchase(purchase);
+                await _purchaseService.PutPurchaseAsync(purchase);
             }
         }
         catch(Exception ex)

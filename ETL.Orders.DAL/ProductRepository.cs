@@ -15,6 +15,6 @@ public class ProductRepository(InternetStoreContext dbContext) : IProductReposit
 
     public async Task<Product?> GetProductByNameAsync(string name)
     {
-        return await _dbContext.Products .AsNoTracking().SingleOrDefaultAsync(p => p.ProductName.ToLower() == name.ToLower());
+        return await _dbContext.Products.AsNoTracking().SingleOrDefaultAsync(p => p.ProductName.ToLower() == name.ToLower());
     }
 }
