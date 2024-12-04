@@ -1,0 +1,16 @@
+<orders>
+    <order>
+        <no>5</no>
+        <reg_date>2024.01.01</reg_date>
+        <sum>0</sum>
+        <product>
+            <quantity>0</quantity>
+            <name>Xiomi 12X</name>
+            <price>0.00</price>
+        </product>
+        <user>
+            <fio>Иванов Иван Иванович</fio>
+            <email>abc@email.com</email>
+        </user>
+    </order>
+</orders>

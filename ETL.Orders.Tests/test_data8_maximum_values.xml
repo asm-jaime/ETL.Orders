@@ -1,0 +1,16 @@
+<orders>
+    <order>
+        <no>6</no>
+        <reg_date>2024.12.31</reg_date>
+        <sum>99999999.99</sum>
+        <product>
+            <quantity>2147483647</quantity>
+            <name>Xiomi 12X</name>
+            <price>99999999.99</price>
+        </product>
+        <user>
+            <fio>Иванов Иван Иванович</fio>
+            <email>abc@email.com</email>
+        </user>
+    </order>
+</orders>

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Testcontainers.MsSql;
 
@@ -235,6 +236,8 @@ public class DatabaseTests
         purchases.Count.Should().Be(1);
     }
 
+    #region negative_tests
+
     [Test]
     public async Task Test_ProcessXmlFile_InvalidXmlStructure_ShouldThrowExceptionOnInvalidFIO()
     {
@@ -274,5 +277,79 @@ public class DatabaseTests
         // Assert
         await act.Should().ThrowAsync<FormatException>();
     }
+
+    #endregion negative_tests
+
+
+    #region boundary_tests
+
+    [Test]
+    public async Task Test_ProcessXmlFile_MinimumValues_ShouldProcessCorrectly()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<XmlFileProcessingService>>();
+        var purchaseRepository = new PurchaseRepository(_context);
+        var purchaseItemRepository = new PurchaseItemRepository(_context);
+        var userRepository = new UserRepository(_context);
+        var productRepository = new ProductRepository(_context);
+        var purchaseService = new PurchaseService(purchaseRepository, purchaseItemRepository, userRepository, productRepository);
+        var xmlFileProcessingService = new XmlFileProcessingService(mockLogger.Object, purchaseService);
+        var testFilePath = @"test_data7_minimum_values.xml";
+
+        // Act
+        await xmlFileProcessingService.ProcessFile(testFilePath);
+
+        // Assert
+        var purchases = await _context.Purchases.ToListAsync();
+        purchases.Should().NotBeNull();
+        purchases.Count.Should().Be(1);
+        purchases.First().PurchaseItems.Select(pi => pi.UnitPrice).Sum().Should().Be(0M);
+    }
+
+    [Test]
+    public async Task Test_ProcessXmlFile_MaximumValues_ShouldProcessCorrectly()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<XmlFileProcessingService>>();
+        var purchaseRepository = new PurchaseRepository(_context);
+        var purchaseItemRepository = new PurchaseItemRepository(_context);
+        var userRepository = new UserRepository(_context);
+        var productRepository = new ProductRepository(_context);
+        var purchaseService = new PurchaseService(purchaseRepository, purchaseItemRepository, userRepository, productRepository);
+        var xmlFileProcessingService = new XmlFileProcessingService(mockLogger.Object, purchaseService);
+        var testFilePath = @"test_data8_maximum_values.xml";
+
+        // Act
+        await xmlFileProcessingService.ProcessFile(testFilePath);
+
+        // Assert
+        var purchases = await _context.Purchases.ToListAsync();
+        purchases.Should().NotBeNull();
+        purchases.Count.Should().Be(1);
+        purchases.First().PurchaseItems.Select(pi => pi.UnitPrice).Sum().Should().Be(99999999.99M);
+    }
+
+    [Test]
+    public async Task Test_ProcessXmlFile_EmptyOrders_ShouldNotCreateAnyPurchase()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<XmlFileProcessingService>>();
+        var purchaseRepository = new PurchaseRepository(_context);
+        var purchaseItemRepository = new PurchaseItemRepository(_context);
+        var userRepository = new UserRepository(_context);
+        var productRepository = new ProductRepository(_context);
+        var purchaseService = new PurchaseService(purchaseRepository, purchaseItemRepository, userRepository, productRepository);
+        var xmlFileProcessingService = new XmlFileProcessingService(mockLogger.Object, purchaseService);
+        var testFilePath = @"test_data9_empty.xml";
+
+        // Act
+        await xmlFileProcessingService.ProcessFile(testFilePath);
+
+        // Assert
+        var purchases = await _context.Purchases.ToListAsync();
+        purchases.Should().BeEmpty();
+    }
+
+    #endregion boundary_tests
 }
 

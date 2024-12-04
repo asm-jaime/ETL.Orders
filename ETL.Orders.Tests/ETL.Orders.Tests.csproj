@@ -38,6 +38,15 @@
   <None Update="test_data6_invalid_user.xml">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
+  <None Update="test_data7_minimum_values.xml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="test_data8_maximum_values.xml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="test_data9_empty.xml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
 </ItemGroup>
 
 </Project>
