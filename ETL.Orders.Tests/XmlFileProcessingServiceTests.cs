@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Threading.Tasks;
 using Testcontainers.MsSql;
 
@@ -232,6 +233,46 @@ public class DatabaseTests
 
         purchases.Should().NotBeNull();
         purchases.Count.Should().Be(1);
+    }
+
+    [Test]
+    public async Task Test_ProcessXmlFile_InvalidXmlStructure_ShouldThrowExceptionOnInvalidFIO()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<XmlFileProcessingService>>();
+        var purchaseRepository = new PurchaseRepository(_context);
+        var purchaseItemRepository = new PurchaseItemRepository(_context);
+        var userRepository = new UserRepository(_context);
+        var productRepository = new ProductRepository(_context);
+        var purchaseService = new PurchaseService(purchaseRepository, purchaseItemRepository, userRepository, productRepository);
+        var xmlFileProcessingService = new XmlFileProcessingService(mockLogger.Object, purchaseService);
+        var testFilePath = @"test_data5_invalid_fio.xml";
+
+        // Act
+        Func<Task> act = async () => await xmlFileProcessingService.ProcessFile(testFilePath);
+
+        // Assert
+        await act.Should().ThrowAsync<FormatException>();
+    }
+
+    [Test]
+    public async Task Test_ProcessXmlFile_MissingRequiredTags_User()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<XmlFileProcessingService>>();
+        var purchaseRepository = new PurchaseRepository(_context);
+        var purchaseItemRepository = new PurchaseItemRepository(_context);
+        var userRepository = new UserRepository(_context);
+        var productRepository = new ProductRepository(_context);
+        var purchaseService = new PurchaseService(purchaseRepository, purchaseItemRepository, userRepository, productRepository);
+        var xmlFileProcessingService = new XmlFileProcessingService(mockLogger.Object, purchaseService);
+        var testFilePath = @"test_data6_invalid_user.xml";
+
+        // Act
+        Func<Task> act = async () => await xmlFileProcessingService.ProcessFile(testFilePath);
+
+        // Assert
+        await act.Should().ThrowAsync<FormatException>();
     }
 }
 
