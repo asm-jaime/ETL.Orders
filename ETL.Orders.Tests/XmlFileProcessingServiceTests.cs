@@ -206,5 +206,32 @@ public class DatabaseTests
         purchases.Should().NotBeNull();
         purchases.Count.Should().Be(2);
     }
+
+    [Test]
+    public async Task Test_ProcessXmlFile_ShouldPutDataAndProcessDuplucateProperly()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<XmlFileProcessingService>>();
+        var purchaseRepository = new PurchaseRepository(_context);
+        var purchaseItemRepository = new PurchaseItemRepository(_context);
+        var userRepository = new UserRepository(_context);
+        var productRepository = new ProductRepository(_context);
+        var purchaseService = new PurchaseService(purchaseRepository, purchaseItemRepository, userRepository, productRepository);
+        var xmlFileProcessingService = new XmlFileProcessingService(mockLogger.Object, purchaseService);
+        var testFilePath = @"test_data4.xml";
+
+        // Act
+        await xmlFileProcessingService.ProcessFile(testFilePath);
+
+        // Assert
+        var purchases = await _context.Purchases
+            .Include(p => p.PurchaseItems)
+            .ThenInclude(pi => pi.Product)
+            .Include(p => p.User)
+            .ToListAsync();
+
+        purchases.Should().NotBeNull();
+        purchases.Count.Should().Be(1);
+    }
 }
 
